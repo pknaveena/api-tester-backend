@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.apitester.api_tester_backend.dto.response.HistoryResponse;
+import com.apitester.api_tester_backend.dto.response.HistoryResponseDetailed;
 import com.apitester.api_tester_backend.service.ApiHistoryService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,7 +47,7 @@ public class ApiHistoryController {
         description = "Returns a specific API execution history entry by ID"
     )
     @GetMapping("/{id}")
-    public ResponseEntity<HistoryResponse> getHistoryById(
+    public ResponseEntity<HistoryResponseDetailed> getHistoryById(
             @PathVariable Long id) {
 
         return ResponseEntity.ok(

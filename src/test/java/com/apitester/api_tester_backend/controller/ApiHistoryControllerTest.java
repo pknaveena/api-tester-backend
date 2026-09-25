@@ -21,6 +21,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.apitester.api_tester_backend.dto.response.HistoryResponse;
+import com.apitester.api_tester_backend.dto.response.HistoryResponseDetailed;
 import com.apitester.api_tester_backend.security.CustomUserDetailsService;
 import com.apitester.api_tester_backend.security.JwtService;
 import com.apitester.api_tester_backend.service.ApiHistoryService;
@@ -73,7 +74,7 @@ class ApiHistoryControllerTest {
     @Test
     void shouldGetHistoryById() throws Exception {
 
-        HistoryResponse response = HistoryResponse.builder()
+        HistoryResponseDetailed response = HistoryResponseDetailed.builder()
                 .id(1L)
                 .build();
 

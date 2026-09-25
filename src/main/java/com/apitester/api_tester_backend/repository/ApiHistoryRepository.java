@@ -12,7 +12,7 @@ import com.apitester.api_tester_backend.entity.User;
 
 public interface ApiHistoryRepository extends JpaRepository<ApiHistory, Long> {
     
-    Page<ApiHistory> findByUser(User user, Pageable pageable);
+    Page<ApiHistory> findByUserOrderByIdDesc(User user, Pageable pageable);
 
      Optional<ApiHistory> findByIdAndUser(
             Long id,

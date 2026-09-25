@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.apitester.api_tester_backend.dto.request.ApiExecuteRequest;
 import com.apitester.api_tester_backend.dto.response.ApiExecuteResponse;
 import com.apitester.api_tester_backend.dto.response.HistoryResponse;
+import com.apitester.api_tester_backend.dto.response.HistoryResponseDetailed;
 import com.apitester.api_tester_backend.entity.ApiHistory;
 import com.apitester.api_tester_backend.entity.User;
 import com.apitester.api_tester_backend.exception.ApiException;
@@ -61,11 +62,11 @@ public class ApiHistoryService {
 		User user = securityUtil.getCurrentUser();
 
 		return apiHistoryRepository
-				.findByUser(user, pageable)
+				.findByUserOrderByIdDesc(user, pageable)
 				.map(this::toResponse);
 	}
 
-	public HistoryResponse getHistoryById(Long id) {
+	public HistoryResponseDetailed getHistoryById(Long id) {
 
 		User user = securityUtil.getCurrentUser();
 
@@ -75,7 +76,7 @@ public class ApiHistoryService {
 						"History not found",
 						HttpStatus.NOT_FOUND));
 
-		return toResponse(history);
+		return toResponseDetailed(history);
 	}
 
 	public void deleteHistory(Long id) {
@@ -106,4 +107,21 @@ public class ApiHistoryService {
 				.build();
 	}
 
+	private HistoryResponseDetailed toResponseDetailed(
+			ApiHistory history) {
+
+		return HistoryResponseDetailed.builder()
+				.id(history.getId())
+				.requestId(history.getRequestId())
+				.method(history.getMethod())
+				.url(history.getUrl())
+				.requestBody(history.getRequestBody())
+				.requestHeaders(history.getRequestHeaders())
+				.responseBody(history.getResponseBody())
+				.statusCode(history.getStatusCode())
+				.responseTime(history.getResponseTime())
+				.responseSize(history.getResponseSize())
+				.createdAt(history.getCreatedAt())
+				.build();
+	}
 }

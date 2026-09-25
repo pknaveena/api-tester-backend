@@ -26,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import com.apitester.api_tester_backend.dto.request.ApiExecuteRequest;
 import com.apitester.api_tester_backend.dto.response.ApiExecuteResponse;
 import com.apitester.api_tester_backend.dto.response.HistoryResponse;
+import com.apitester.api_tester_backend.dto.response.HistoryResponseDetailed;
 import com.apitester.api_tester_backend.entity.ApiHistory;
 import com.apitester.api_tester_backend.entity.User;
 import com.apitester.api_tester_backend.exception.ApiException;
@@ -244,7 +245,7 @@ class ApiHistoryServiceTest {
         when(securityUtil.getCurrentUser())
                 .thenReturn(user);
 
-        when(apiHistoryRepository.findByUser(
+        when(apiHistoryRepository.findByUserOrderByIdDesc(
                 user,
                 pageable))
                 .thenReturn(historyPage);
@@ -296,7 +297,7 @@ class ApiHistoryServiceTest {
                 .getCurrentUser();
 
         verify(apiHistoryRepository)
-                .findByUser(
+                .findByUserOrderByIdDesc(
                         user,
                         pageable);
     }
@@ -322,7 +323,7 @@ class ApiHistoryServiceTest {
         when(securityUtil.getCurrentUser())
                 .thenReturn(user);
 
-        when(apiHistoryRepository.findByUser(
+        when(apiHistoryRepository.findByUserOrderByIdDesc(
                 user,
                 pageable))
                 .thenReturn(emptyPage);
@@ -341,7 +342,7 @@ class ApiHistoryServiceTest {
                 response.getContent().size());
 
         verify(apiHistoryRepository)
-                .findByUser(
+                .findByUserOrderByIdDesc(
                         user,
                         pageable);
     }
@@ -375,7 +376,7 @@ class ApiHistoryServiceTest {
 
         // Act
 
-        HistoryResponse response =
+        HistoryResponseDetailed response =
                 apiHistoryService.getHistoryById(10L);
 
         // Assert
