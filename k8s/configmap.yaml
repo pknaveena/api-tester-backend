@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: api-tester-config
+  namespace: api-tester
+
+data:
+  DB_HOST: mysql
+  DB_PORT: "3306"
+  DB_NAME: api_tester
+  MYSQL_DATABASE: api_tester
+  SPRING_PROFILES_ACTIVE: prod
