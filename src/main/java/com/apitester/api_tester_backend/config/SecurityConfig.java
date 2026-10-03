@@ -82,7 +82,8 @@ public class SecurityConfig {
                                 List.of(
                                                 "http://localhost:3000",
                                                 "http://localhost:5173",
-                                                "http://localhost:4173"
+                                                "http://localhost:4173",
+                                                "https://production.d3vtb3op8i0myz.amplifyapp.com"
                                         ));
                 configuration.setAllowedMethods(List.of(
                                 "GET",
@@ -92,6 +93,7 @@ public class SecurityConfig {
                                 "PATCH",
                                 "OPTIONS"));
                 configuration.setAllowedHeaders(List.of("*"));
+                configuration.setAllowCredentials(true);
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
