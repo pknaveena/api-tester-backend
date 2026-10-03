@@ -33,3 +33,6 @@ build/
 .vscode/
 
 .env
+
+# Kubernetes secrets
+k8s/secret.yaml
