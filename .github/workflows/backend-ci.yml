@@ -58,10 +58,12 @@ jobs:
         run: docker build -t api-tester-backend:${{ github.sha }} .   
 
       - name: Configure AWS credentials
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: aws-actions/configure-aws-credentials@v4
         with:
-            role-to-assume: arn:aws:iam::495791792589:role/GitHubActionsApiTesterECR
-            aws-region: ap-south-1
+          role-to-assume: arn:aws:iam::495791792589:role/GitHubActionsApiTesterECR
+          aws-region: ap-south-1
 
       - name: Verify AWS identity
-        run: aws sts get-caller-identity      
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: aws sts get-caller-identity     
