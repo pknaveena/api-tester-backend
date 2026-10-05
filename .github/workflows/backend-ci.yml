@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read      
+
 jobs:
   test:
     name: Build and Test Backend
@@ -52,3 +56,12 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t api-tester-backend:${{ github.sha }} .   
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            role-to-assume: arn:aws:iam::495791792589:role/GitHubActionsApiTesterECR
+            aws-region: ap-south-1
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity      
