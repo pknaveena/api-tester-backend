@@ -45,7 +45,7 @@ jobs:
           MYSQL_DATABASE: api_tester
           DB_USERNAME: root
           DB_PASSWORD: password
-          JWT_SECRET: test-secret-for-ci
+          JWT_SECRET: test-secret-for-ci-123456789012345678901234
 
       - name: Build application
         run: mvn clean package -DskipTests
