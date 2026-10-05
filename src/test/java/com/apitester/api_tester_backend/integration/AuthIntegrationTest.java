@@ -16,41 +16,42 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 class AuthIntegrationTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @Test
-    void shouldRegisterLogin() throws Exception {
+        @Test
+        void shouldRegisterLogin() throws Exception {
 
-        String email = "integration" + System.nanoTime() + "@test.com";
+                String email = "integration" + System.nanoTime() + "@test.com";
+                String password = "password123";
 
-        String registerJson = """
-                {
-                    "name": "Integration Test User",
-                    "email": "%s",
-                    "password": "password123"
-                }
-                """.formatted(email);
-
-        // 1. Register user
-        mockMvc.perform(
-                post("/api/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(registerJson))
-                .andExpect(status().isCreated());
-
-        // 2. Login user
-        mockMvc.perform(
-                post("/api/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                String registerJson = """
                                 {
-                                    "email": "integration@test.com",
-                                    "password": "Password123"
+                                    "name": "Integration Test User",
+                                    "email": "%s",
+                                    "password": "%s"
                                 }
-                                """))
-                .andExpect(status().isOk())
-                .andReturn();
+                                """.formatted(email, password);
 
-    }
+                // 1. Register user
+                mockMvc.perform(
+                                post("/api/auth/register")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(registerJson))
+                                .andExpect(status().isCreated());
+
+                // 2. Login with the same credentials
+                mockMvc.perform(
+                                post("/api/auth/login")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content("""
+                                                                {
+                                                                    "email": "%s",
+                                                                    "password": "%s"
+                                                                }
+                                                                """.formatted(email, password)))
+                                .andExpect(status().isOk())
+                                .andReturn();
+        }
+
 }
