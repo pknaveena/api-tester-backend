@@ -49,3 +49,6 @@ jobs:
 
       - name: Build application
         run: mvn clean package -DskipTests
+
+      - name: Build Docker image
+        run: docker build -t api-tester-backend:${{ github.sha }} .   
