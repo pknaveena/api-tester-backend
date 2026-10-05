@@ -13,6 +13,20 @@ jobs:
     name: Build and Test Backend
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: api_tester
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -ppassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -26,6 +40,12 @@ jobs:
 
       - name: Run tests
         run: mvn clean test
+        env:
+          DB_HOST: 127.0.0.1
+          MYSQL_DATABASE: api_tester
+          DB_USERNAME: root
+          DB_PASSWORD: password
+          JWT_SECRET: test-secret-for-ci
 
       - name: Build application
         run: mvn clean package -DskipTests
