@@ -66,4 +66,4 @@ jobs:
 
       - name: Verify AWS identity
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: aws sts get-caller-identity     
+        run: aws sts get-caller-identity      
